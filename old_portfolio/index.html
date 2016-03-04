@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- CREATED BY SZYMON MASLANKA -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Portfolio Szy</title>
+	<meta name="description" content="_nahives portfolio">
+	<meta name="author" content="Szymon Maslanka">
+
+	<!-- outside sources -->
+	<script type="text/javascript" src="scripts/skrollr.min.js"></script>
+	<script type="text/javascript" src="scripts/jquery-2.0.3.min.js"></script>
+	<link rel="stylesheet" href="scripts/animate.min.css">
+	<link rel="stylesheet" href="scripts/fixed-positioning.css">
+	<!-- own sources -->
+	<link type="text/css" rel="stylesheet" href="css/stylesheet.css"/>
+	<script type="text/javascript" src="scripts/script.js"></script>
+
+</head>
+<body>
+	<div id="bg1" data-0="background-position: 0px -100px; opacity: 0.5;"  data-400="background-position: 0px -800px; opacity: 0;"></div>
+	<div id="bg2" data-0="background-position:-0px -0px; opacity: 0.3;"  data-400="background-position: 0px -400px; opacity: 0;"></div>
+	<section class="screen" id="main_screen" >
+		<div id="div_welcome">
+			<p id="greetings">Hello</p>
+			<p id="greetings_text" >Simple designs and effective functionality are my priorities.</br>Also I love game development.</p>
+			<p id="greetings_under"  data-0="opacity: 1;" data-300="opacity: 0;">scroll down to see my work</p>
+		</div>
+	</section>
+	<section class="screen" id="portfolio_screen">
+		<div id="contact_links">
+				<a href="http://stackoverflow.com/users/2665236/nahive">
+					<img src="images/logos/stackoverflow.png">
+				</a>
+				<a href="https://github.com/nahive">
+					<img src="images/logos/github.png">
+				</a>
+				<a href="https://twitter.com/nahive_">
+					<img src="images/logos/twitter.png">
+				</a>
+				<a href="http://masslany.deviantart.com">
+					<img src="images/logos/deviantart.png">
+				</a>
+			</div>
+		<div id="portfolio_title" data-1100="opacity: 0; top: 0%;" data-1400="opacity: 1;" data-2200="opacity: 1;" data-2500="opacity: 0;">What</br>I've</br>done</div>
+		<div id="portfolio_content">
+			<div class="portfolio_item" data-200="opacity: 0; left: 30%" data-600="opacity: 1; left: 20%;" >
+				<h1>Games</h1>
+				<div class="portfolio_item_inside" >
+					<img src="images/portfolio_itemsarkanoid.png">
+					<p>Very simple minimalistic styled arkanoid game. Includes nice looking dynamic-lights. </br></br>
+					<a href="https://github.com/nahive/awesome_arkanoid">GitHub</a> </br>
+					<a href="files/AwesomeArkanoid.apk">Download</a></p>
+					<img src="images/sidescroller.png">
+					<p>Simple sidescroller game in which you control a ship and your target is to destroy enemy ships and boss. </br></br>
+					<a href="https://github.com/nahive/sidescroller">GitHub</a> </br>
+					<a href="files/SideScroller.jar">Download</a></p>
+				</div>
+			</div>
+			<div class="portfolio_item" data-600="opacity: 0; left: 30%" data-1000="opacity: 1; left: 20%;" >
+				<h1>Websites</h1>
+				<div class="portfolio_item_inside" >
+					<img src="images/portfolio_itemskraina.png"></br>
+					<p>Few websites I've created.</br></br>
+					<a href="http://krainaduchagor.org">Kraina Ducha Gor</a></br></br>
+					<a href="http://www.sapedu.eu/">School SAP website</a></br></br></p>
+					<img src="images/portfolio_itemswroclaw2017.png"></br>
+					<p>Final engineer project - website and mobile app for Wroclaw 2017 </br></br>
+					<a href="https://2017.wroclaw.pl/"> The World Games 2017 Wroclaw website and iOS application</a>
+					</p>
+				</div>
+			</div>
+			<div class="portfolio_item" data-1200="opacity: 0; left: 30%" data-1500="opacity: 1; left: 20%;">
+			<h1>School Projects</h1>
+				<div class="portfolio_item_inside" >
+					<img src="images/portfolio_itemsschool.png">
+					<p>Few school projects. Links lead to github.</br></br>
+					<a href="https://github.com/nahive/Wypozyczalnia">Concept of django based site for car-renting.</a>
+					</br></br>
+					<a href="https://github.com/nahive/gamedev">Real time online multiplayer game written in html5, node.js and socket.io </a></p>
+				</div>
+			</div>
+			<div class="portfolio_item" data-1600="opacity: 0; left: 30%" data-1800="opacity: 1; left: 20%;">
+			<h1>Work Projects</h1>
+				<div class="portfolio_item_inside" >
+					<img src="images/portfolio_itemssms_app.png">
+					<p>SMS Hubbing is a new structure that was introduced for international SMS traffic between operators to expand SMS services. </br></br>
+					<a href="https://play.google.com/store/apps/details?id=com.rizapps.sms_app">Download</a></p>
+					<img src="images/portfolio_itemsreed_app.png">
+					<p>Application made for client of Johnson Reed Company to ease calculating leasings and getting in touch with company. </br></br>
+					<a href="https://play.google.com/store/apps/details?id=com.johnsonreed.leasing">Google Play Store</a></br>
+					<a href="https://itunes.apple.com/us/app/johnson-reed/id907577316?ls=1&mt=8">Apple Store</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="screen" id="contact_screen" >
+		<div class="contact"  data-1500="opacity: 0;" data-2000="opacity: 1;">	
+				<p class="header" id="contact_header" >Get in touch</p>	
+				<form id="contact-me" class="form" method="post">
+					<p class="name"><input type="text" name="name" id="name" placeholder="Please enter your name" required></p>
+					<p class="email"><input type="email" name="email" id="email" placeholder="Please enter your email" required/></p>	
+					<p class="text"><textarea name="text" id="text" placeholder="Write something to me!" required/></textarea></p>
+					<p class="submit"><input type="button" id="contact-submit" value="Send" /></p>
+				</form>
+			</div>
+
+	</section>
+	<section id="grass">
+		<div id="grass1"></div>
+		<div id="grass2"></div>
+		<div id="grass3"></div>
+	</section>
+	<div id="footer">
+		<div id="foot">
+			<p> Created by nahive © 2013</p>
+		</div>
+	</div>
+</body>
+</html>

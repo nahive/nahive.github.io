@@ -1,0 +1,271 @@
+/* created by Szymon Maslanka */
+
+@import url('reset.css');
+@import url('../fonts/stylesheet.css');
+
+* {
+	font-family: quicksandlight;
+}
+
+body
+{	
+	font-family: quicksandlight;
+	background: #272c69; /* Old browsers */
+	background: -moz-linear-gradient(top,  #272c69 1%, #6aceeb 55%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#272c69), color-stop(55%,#6aceeb)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #272c69 1%,#6aceeb 55%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #272c69 1%,#6aceeb 55%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #272c69 1%,#6aceeb 55%); /* IE10+ */
+	background: linear-gradient(to bottom,  #272c69 1%,#6aceeb 55%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#272c69', endColorstr='#6aceeb',GradientType=0 ); /* IE6-9 */
+}
+
+b {	font-family: quicksandbold;  }
+i { font-family: quicksandlight_italic; }
+
+#bg1, #bg2 {
+	z-index: -50;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+
+#bg1 {
+	background:url(../images/stars1.png) repeat 0 0;
+}
+
+#bg2 {
+	z-index: -51;
+	background-image:url(../images/stars2.png);
+}
+
+#div_welcome {
+	color: #ffffff;
+	width: 50%;
+	text-align: center;
+	font-size: 150px;
+	margin: 0 auto;
+	padding-top: 20%;
+}
+
+#greetings_text {
+	font-size: 20px;
+	opacity: 0.2;
+}
+
+#greetings_under {
+	position: relative;
+	font-family: quicksandlight;
+	font-size: 25px;
+	margin-top: 250px;
+	opacity: 0.3;
+}
+
+#portfolio_screen{
+
+}
+
+#contact_links {
+	width: 250px;
+	margin: 0 auto;
+	margin-top: 20px;
+
+}
+
+#contact_links img {
+	height: 50px;
+	width: 50px;
+	opacity: 0.5;
+}
+
+#contact_links img:hover {
+	opacity: 1;
+}
+
+
+#portfolio_title{
+	float: left;
+	padding-left: 20%;
+	margin-top: 300px;
+	font-size: 150px;
+	width: 30%;
+	color:white;
+	z-index: -1;
+}
+
+#portfolio_content {
+	float: right;
+	margin-top: 50px;
+	margin-right: 400px;
+}
+
+.portfolio_item {
+	width: 500px;
+	min-height: 300px;
+	background: white;
+	margin: 50px auto;
+	border-radius: 5px;
+	position: relative;
+}
+
+.portfolio_item h1 {
+	font-size: 40px;
+	padding-top: 10px;
+	text-align: center;
+}
+
+.portfolio_item_inside {
+	width: 450px;
+	margin: 0 auto;
+	margin-top: 30px;
+
+}
+
+.portfolio_item_inside img {
+	width: 200px;
+	float: left;
+	margin-right: 40px;
+	border-radius: 10px;
+}
+
+.portfolio_item_inside p {
+	font-family: quicksandregular;
+	font-size: 16px;
+	padding-top: 15px;
+	min-height: 200px;
+}
+
+#contact_screen {
+
+}
+
+.contact {
+	margin: 0 auto;
+	padding-top: 450px;
+	width: 600px;
+	height: 375px;
+	position: relative;
+}
+
+#contact_header {
+	width: 100%;
+	margin-top: 2%;
+	float: left;
+	font-family: quicksandregular;
+	text-align: center;
+	font-size: 75px;
+	color: white;
+
+}
+
+.form {
+	text-align: center;
+	float: left;
+	margin-top: 5%;
+	width: 100%;
+	height: 30%;
+}
+
+.name, .email{
+ 	float: left;
+}
+
+.name {
+	margin-left: 116px;
+	margin-right: 25px;
+}
+
+input, textarea {
+	text-align: center;
+	font-size: 13px;
+	padding: 0.5%;
+	border: 1px solid white;
+	width: 168px;
+	height: 25px;
+	border-radius: 5px; 
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;		
+}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus {
+	outline: 0;
+	border-color: 1px solid lightgray;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px;	
+}
+
+textarea {
+	margin-top: 1%;
+	width: 60%;
+	height: 100px;
+	max-width: 60%;
+	max-height: 150px;
+	line-height: 18px;
+}
+
+.submit input {
+	width: 100px; 
+	height: 40px;
+	margin-top: 1%;
+
+	color: gray;
+	border-radius: 3px;
+	border-collapse: separate;
+	background-color: white;
+	cursor: pointer;
+	font-size: 25px;
+	font-family: quicksanddash;
+}
+
+
+#grass1, #grass2, #grass3 {
+	width: 100%;
+	height: 261px;
+	bottom: -3150px;
+	position: absolute;
+	z-index: -50;
+}
+
+#grass1 {
+                background: url('../images/grass1.png') -1250px 0px;
+}
+
+#grass2 {
+                background: url('../images/grass2.png') -1250px 0px;
+}
+
+#grass3 {
+                background: url('../images/grass3.png') -1250px 0px;
+}
+
+
+#foot {
+	width:100%;
+	height: 25px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background: #333333;
+	color: gray;
+	z-index: 100;
+}
+
+#foot p {
+	margin-top: 5px;
+	margin-right: 10px;
+	float: right;
+}
+
+a {
+	text-decoration: none;
+	font-family: quicksanddash;
+	color:gray;
+}
+
+a:hover {
+	color: pink;
+}
