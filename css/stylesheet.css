@@ -2,8 +2,13 @@
 /*@import url(http://fonts.googleapis.com/css?family=Lato:100,400,900,100italic,400italic,900italic);*/
 @import url('reset.css');
 
+@font-face {
+  font-family: "Oswald-Regular";
+  src: url('fonts/oswald/Oswald-Regular.ttf');
+}
+
 body {
-	font-family: 'Lato', Helvetica, sans-serif;
+	font-family: Helvetica, sans-serif;
 	font-weight: 100;
 }
 
@@ -24,19 +29,16 @@ a:hover {
 	opacity: 1;
 }
 
-#menu_social {
+#menu-social {
   width: 159.4376px;
   height: 55px;
   position: absolute;
   left:0; right:0;
-  top:0; bottom:0;
-  margin:auto;
-  max-width:100%;
-  max-height:100%;
-  overflow:auto;
+  margin: auto;
+  margin-top: 20px;
 }
 
-#menu_social li {
+#menu-social li {
   font-size: 22px;
   display: inline;
   text-decoration: none;
@@ -44,8 +46,8 @@ a:hover {
   opacity: 0.6;
 }
 
-#link_twitter, #link_linkedin,
-#link_github, #link_stackoverflow {
+#menu-twitter, #menu-linkedin,
+#menu-github, #menu-stack {
   color: #fff;
   padding: 8px;
    -moz-border-radius: 22px; 
@@ -53,20 +55,135 @@ a:hover {
    border-radius: 22px;
 }
 
-#link_twitter {
-  background: #1DA1F2;
+#menu-twitter {
+  background-color: #1DA1F2;
 }
 
-#link_linkedin {
-  background: #1C87BD;
+#menu-linkedin {
+  background-color: #1C87BD;
 }
 
-#link_github {
-  background: #4078C0;
+#menu-github {
+  background-color: #4078C0;
 }
 
-#link_stackoverflow {
-  background: #f48024;
+#menu-stack {
+  background-color: #f48024;
 }
 
+#introduction {
+  width: 360px;
+  height: 55px;
+  position: absolute;
+  left: 0; right:0;
+  margin: auto;
+  margin-top: 75px;
+}
+
+#introduction img {
+  float: left;
+  width: 55px;
+  height: 55px;
+   -moz-border-radius: 27.5px; 
+   -webkit-border-radius: 27.5px; 
+   border-radius: 27.5px;
+}
+
+#introduction h1 {
+  font-family: 'Oswald-Regular';
+  font-size: 44px;
+  color: #555;
+  text-align: center;
+  padding: 5.5px;
+}
+
+#portfolio {
+  width: 360px;
+  height: 55px;
+  position: absolute;
+  left: 0; right:0;
+  margin: auto;
+  margin-top: 150px;
+}
+
+#portfolio h1 {
+ font-family: 'Oswald-Regular';
+  font-size: 44px;
+  color: #555;
+  text-align: center;
+  padding: 5.5px;
+}
+
+#portfolio-items {
+  background-color: #fafafa;
+    -moz-border-radius: 8px; 
+   -webkit-border-radius: 8px; 
+   border-radius: 8px;
+  width: 80%;
+  height: auto;
+  position: absolute;
+  left: 0; right:0;
+  margin: auto;
+  margin-top: 150px;
+}
+
+.portfolio-item {
+  padding: 8px;
+  margin-bottom: 44px;
+}
+
+.portfolio-item img {
+  float: left;
+  width: 100px;
+  height: 100px;
+   -moz-border-radius: 50px; 
+   -webkit-border-radius: 50px; 
+   border-radius: 50px;
+  margin: 16px;
+}
+
+.portfolio-item h2 {
+  font-family: 'Oswald-Regular';
+  font-size: 44px;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.portfolio-item h3 {
+  color: #666;
+  padding: 8px;
+}
+
+.portfolio-item .links {
+  margin: 8px 0px;
+  float: right;
+}
+
+.link-button {
+  color: #fff;
+  padding: 8px;
+   -moz-border-radius: 22px; 
+   -webkit-border-radius: 22px; 
+   border-radius: 22px;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.link-github {
+  background-color: #4078C0;
+}
+
+.link-download {
+  background-color: #333;
+}
+
+.link-play-store {
+  background-color: #689F38;
+}
+
+.link-apple-store {
+  background-color: #2588D6;
+}
 
