@@ -223,11 +223,3 @@ box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
 .link-apple-store {
   background-color: #2588D6;
 }
-
-#counter {
-  color: #ddd;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
