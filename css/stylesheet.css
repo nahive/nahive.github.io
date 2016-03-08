@@ -33,7 +33,7 @@ a:hover {
 #menu-social {
   width: 159.4376px;
   height: 55px;
-  position: absolute;
+  position: relative;
   left:0; right:0;
   margin: auto;
   margin-top: 20px;
@@ -74,11 +74,11 @@ a:hover {
 
 #introduction {
   width: 360px;
-  height: 55px;
-  position: absolute;
+  height: 100px;
+  position: relative;
   left: 0; right:0;
   margin: auto;
-  margin-top: 75px;
+  margin-top: 8px;
 }
 
 #introduction img {
@@ -110,10 +110,10 @@ a:hover {
 #portfolio {
   max-width: 800px;
   height: auto;
-  position: absolute;
+  position: relative;
   left: 0; right:0;
   margin: auto;
-  margin-top: 260px;
+  margin-top: 100px;
 }
 
 .portfolio-items {
@@ -229,4 +229,15 @@ a:hover {
 
 .link-apple-store {
   background-color: #2588D6;
+}
+
+#copyright {
+  width: 100%;
+  height: 40px;
+  position: relative;
+  margin: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+
 }

@@ -12,7 +12,6 @@ function resizetoView(){
 
 $(document).ready( function(){
   //basic resizing so it fits
-  resizetoView();
-  $(window).bind('resize', resizetoView);
+  
 });
 
