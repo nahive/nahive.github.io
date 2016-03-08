@@ -6,15 +6,13 @@ function resizetoView(){
   viewportWidth = $(window).width() ;
   viewportHeight = $(window).height();
   $('.screen').height(viewportHeight*0.95);
-  $('#section_portfolio').height(viewportHeight*1.60);
  
 }
+
 
 $(document).ready( function(){
   //basic resizing so it fits
   resizetoView();
   $(window).bind('resize', resizetoView);
 });
-
-
 

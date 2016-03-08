@@ -132,18 +132,35 @@ box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
   color: #444;
 }
 
+#portfolio-items-websites {
+ background-color: #eee;
+}
+
+#portfolio-items-websites h2 {
+  color: #444;
+}
+
 #portfolio-items-other {
- background-color: #000;
+ background-color: #444;
 }
 
 #portfolio-items-other h2 {
   color: #eee;
 }
 
+#portfolio-items-school {
+ background-color: #222;
+}
+
+#portfolio-items-school h2 {
+  color: #eee;
+}
+
 .portfolio-item {
-  padding: 8px;
+  padding: 16px;
   margin-bottom: 16px;
   padding-bottom: 55px;
+
 }
 
 .portfolio-item img {
@@ -205,5 +222,12 @@ box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
 
 .link-apple-store {
   background-color: #2588D6;
+}
+
+#counter {
+  color: #ddd;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
