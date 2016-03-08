@@ -109,15 +109,19 @@ a:hover {
 }
 
 .portfolio-items {
-    -moz-border-radius: 8px; 
-   -webkit-border-radius: 8px; 
-   border-radius: 8px;
+    -moz-border-radius: 4px; 
+   -webkit-border-radius: 4px; 
+   border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
+-moz-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
+box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
 }
 
 .portfolio-items h2 {
   font-family: 'Oswald-Regular';
   font-size: 44px;
-  padding: 8px;
+  padding: 16px;
+  padding-left: 24px;
 }
 
 #portfolio-items-apps {
@@ -150,12 +154,12 @@ a:hover {
    -webkit-border-radius: 50px; 
    border-radius: 50px;
   margin: 16px;
+  margin-top: 0px;
 }
 
 .portfolio-item h3 {
-  font-family: 'Oswald-Regular';
   font-size: 30px;
-  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .portfolio-item h4 {
@@ -172,7 +176,7 @@ a:hover {
 }
 
 .portfolio-item-dark {
-  color: #ccc;
+  color: #eee;
 }
 
 .link-button {
