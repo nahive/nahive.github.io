@@ -20,10 +20,10 @@ a {
 	text-decoration: none;
 	opacity: 0.6;
 	-webkit-transition: opacity 0.5s ease-in-out;
-    -moz-transition: opacity 0.5s ease-in-out;
-    -ms-transition: opacity 0.5s ease-in-out;
-    -o-transition: opacity 0.5s ease-in-out;
-    transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -ms-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 a:hover {
@@ -51,9 +51,9 @@ a:hover {
 #menu-github, #menu-stack {
   color: #fff;
   padding: 8px;
-   -moz-border-radius: 22px; 
-   -webkit-border-radius: 22px; 
-   border-radius: 22px;
+  -moz-border-radius: 22px; 
+  -webkit-border-radius: 22px; 
+  border-radius: 22px;
 }
 
 #menu-twitter {
@@ -85,9 +85,9 @@ a:hover {
   float: left;
   width: 55px;
   height: 55px;
-   -moz-border-radius: 27.5px; 
-   -webkit-border-radius: 27.5px; 
-   border-radius: 27.5px;
+  -moz-border-radius: 27.5px; 
+  -webkit-border-radius: 27.5px; 
+  border-radius: 27.5px;
 }
 
 #introduction h1 {
@@ -98,23 +98,31 @@ a:hover {
   padding: 5.5px;
 }
 
+#introduction h2 {
+  font-family: 'Oswald-Regular';
+  font-size: 20px;
+  color: #bbb;
+  text-align: center;
+  padding: 16px 0px;
+}
+
 
 #portfolio {
-  width: 80%;
+  max-width: 800px;
   height: auto;
   position: absolute;
   left: 0; right:0;
   margin: auto;
-  margin-top: 180px;
+  margin-top: 260px;
 }
 
 .portfolio-items {
-    -moz-border-radius: 4px; 
-   -webkit-border-radius: 4px; 
-   border-radius: 4px;
+  -moz-border-radius: 4px; 
+  -webkit-border-radius: 4px; 
+  border-radius: 4px;
   -webkit-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
--moz-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
+  -moz-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
+  box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
 }
 
 .portfolio-items h2 {
@@ -160,16 +168,15 @@ box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
   padding: 16px;
   margin-bottom: 16px;
   padding-bottom: 55px;
-
 }
 
 .portfolio-item img {
   float: left;
   width: 100px;
   height: 100px;
-   -moz-border-radius: 50px; 
-   -webkit-border-radius: 50px; 
-   border-radius: 50px;
+  -moz-border-radius: 50px; 
+  -webkit-border-radius: 50px; 
+  border-radius: 50px;
   margin: 16px;
   margin-top: 0px;
 }
@@ -199,9 +206,9 @@ box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
 .link-button {
   color: #fff;
   padding: 8px;
-   -moz-border-radius: 22px; 
-   -webkit-border-radius: 22px; 
-   border-radius: 22px;
+  -moz-border-radius: 22px; 
+  -webkit-border-radius: 22px; 
+  border-radius: 22px;
   width: 16px;
   height: 16px;
   font-size: 16px;
