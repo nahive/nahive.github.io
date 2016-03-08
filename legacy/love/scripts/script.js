@@ -38,7 +38,7 @@
     resizetoView();
     $(window).bind('resize', resizetoView);
     $("#days").countdown({
-      date: "February 11, 2016 17:00:00"
+      date: "March 11, 2016 17:00:00"
     });
     $('#heart').addClass('animated pulse');
     console.log("fuck");
