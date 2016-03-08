@@ -10,6 +10,7 @@
 body {
 	font-family: Helvetica, sans-serif;
 	font-weight: 100;
+  background-color: #fafafa;
 }
 
 b {	font-weight: 900; font-style: bold; }
@@ -97,39 +98,48 @@ a:hover {
   padding: 5.5px;
 }
 
+
 #portfolio {
-  width: 360px;
-  height: 55px;
-  position: absolute;
-  left: 0; right:0;
-  margin: auto;
-  margin-top: 150px;
-}
-
-#portfolio h1 {
- font-family: 'Oswald-Regular';
-  font-size: 44px;
-  color: #555;
-  text-align: center;
-  padding: 5.5px;
-}
-
-#portfolio-items {
-  background-color: #fafafa;
-    -moz-border-radius: 8px; 
-   -webkit-border-radius: 8px; 
-   border-radius: 8px;
   width: 80%;
   height: auto;
   position: absolute;
   left: 0; right:0;
   margin: auto;
-  margin-top: 150px;
+  margin-top: 180px;
+}
+
+.portfolio-items {
+    -moz-border-radius: 8px; 
+   -webkit-border-radius: 8px; 
+   border-radius: 8px;
+}
+
+.portfolio-items h2 {
+  font-family: 'Oswald-Regular';
+  font-size: 44px;
+  padding: 8px;
+}
+
+#portfolio-items-apps {
+ background-color: #fff;
+}
+
+#portfolio-items-apps h2 {
+  color: #444;
+}
+
+#portfolio-items-other {
+ background-color: #000;
+}
+
+#portfolio-items-other h2 {
+  color: #eee;
 }
 
 .portfolio-item {
   padding: 8px;
-  margin-bottom: 44px;
+  margin-bottom: 16px;
+  padding-bottom: 55px;
 }
 
 .portfolio-item img {
@@ -142,21 +152,27 @@ a:hover {
   margin: 16px;
 }
 
-.portfolio-item h2 {
+.portfolio-item h3 {
   font-family: 'Oswald-Regular';
-  font-size: 44px;
-  color: #444;
+  font-size: 30px;
   margin-bottom: 8px;
 }
 
-.portfolio-item h3 {
-  color: #666;
+.portfolio-item h4 {
   padding: 8px;
 }
 
 .portfolio-item .links {
   margin: 8px 0px;
   float: right;
+}
+
+.portfolio-item-light {
+  color: #444;
+}
+
+.portfolio-item-dark {
+  color: #ccc;
 }
 
 .link-button {
