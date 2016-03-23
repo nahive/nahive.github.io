@@ -43,7 +43,7 @@ body {
 }
 
 b {	font-weight: 900; font-style: bold; font-family: "OpenSans-Bold"; }
-i { font-weight: 300; font-style: italic; font-family: "OpenSans-Italic" }
+i { font-weight: 300; font-style: italic; font-family: "OpenSans-Light" }
 
 a {
 	text-decoration: none;
@@ -198,7 +198,7 @@ a:hover {
 .portfolio-item {
   padding: 16px;
   margin-bottom: 16px;
-  padding-bottom: 55px;
+  min-height: 100px;
 }
 
 .portfolio-item img {
@@ -213,17 +213,17 @@ a:hover {
 }
 
 .portfolio-item h3 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 500;
-  font-family: "OpenSans-Regular";
+  font-family: "OpenSans-Light";
 }
 
 .portfolio-item h4 {
-  padding: 8px;
+  padding: 6px;
+  padding-right: 60px;
 }
 
 .portfolio-item .links {
-  margin: 8px 0px;
   float: right;
 }
 
@@ -232,7 +232,7 @@ a:hover {
 .portfolio-item-small {
   padding: 16px;
   margin-bottom: 16px;
-  padding-bottom: 55px;
+   min-height: 50px;
 }
 
 .portfolio-item-small img {
@@ -243,33 +243,34 @@ a:hover {
   -webkit-border-radius: 25px; 
   border-radius: 25px;
   margin: 16px;
+  margin-left: 36px;
   margin-top: 0px;
 }
 
 .portfolio-item-small h3 {
-  font-size: 15px;
+  font-size: 22px;
   font-weight: 500;
-  font-family: "OpenSans-Regular";
+  font-family: "OpenSans-Light";
 }
 
 .portfolio-item-small h4 {
   padding: 8px;
+  padding-right: 60px;
 }
 
 .portfolio-item-small .links {
-  margin: 8px 0px;
   float: right;
 }
 
 .link-button {
   color: #fff;
-  padding: 8px;
+  padding: 6px;
   -moz-border-radius: 22px; 
   -webkit-border-radius: 22px; 
   border-radius: 22px;
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
   text-align: center;
 }
 
