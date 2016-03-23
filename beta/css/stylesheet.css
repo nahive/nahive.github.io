@@ -152,6 +152,8 @@ a:hover {
   -webkit-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
   -moz-box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
   box-shadow: 0px 0px 54px -13px rgba(0,0,0,0.42);
+
+  color: #333;
 }
 
 .portfolio-items h2 {
@@ -161,7 +163,7 @@ a:hover {
   padding-left: 24px;
 }
 
-#portfolio-items-apps {
+/*#portfolio-items-apps {
  background-color: #fff;
 }
 
@@ -191,7 +193,7 @@ a:hover {
 
 #portfolio-items-school h2 {
   color: #eee;
-}
+}*/
 
 .portfolio-item {
   padding: 16px;
@@ -225,12 +227,38 @@ a:hover {
   float: right;
 }
 
-.portfolio-item-light {
-  color: #444;
+/*small*/
+
+.portfolio-item-small {
+  padding: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 55px;
 }
 
-.portfolio-item-dark {
-  color: #eee;
+.portfolio-item-small img {
+  float: left;
+  width: 50px;
+  height: 50px;
+  -moz-border-radius: 25px; 
+  -webkit-border-radius: 25px; 
+  border-radius: 25px;
+  margin: 16px;
+  margin-top: 0px;
+}
+
+.portfolio-item-small h3 {
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "OpenSans-Regular";
+}
+
+.portfolio-item-small h4 {
+  padding: 8px;
+}
+
+.portfolio-item-small .links {
+  margin: 8px 0px;
+  float: right;
 }
 
 .link-button {
