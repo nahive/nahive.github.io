@@ -20,18 +20,27 @@
 
 </head>
 <body>
-	<div id="menu-social">
-		<ul>
-			<li><a id="menu-stack" class="fa fa-stack-overflow" href='http://stackoverflow.com/users/2665236/nahive'></a></li>
-			<li><a id="menu-github" class="fa fa-github-alt" href='https://github.com/nahive'></a></li>
-			<li><a id="menu-twitter" class="fa fa-twitter" href='https://twitter.com/nahive_'></a></li>
-			<li><a id="menu-linkedin" class="fa fa-linkedin" href='https://www.linkedin.com/profile/view?id=371994383'></a></li>
-		</ul>
+	<div id="menu-header">
+		<img id="menu-avatar" src="files/images/avatar.png"></img>
+		<div id="menu-social">
+			<ul>
+				<li><a id="menu-stack" class="fa fa-stack-overflow" href='http://stackoverflow.com/users/2665236/nahive'></a></li>
+				<li><a id="menu-github" class="fa fa-github-alt" href='https://github.com/nahive'></a></li>
+				<li><a id="menu-twitter" class="fa fa-twitter" href='https://twitter.com/nahive_'></a></li>
+				<li><a id="menu-linkedin" class="fa fa-linkedin" href='https://www.linkedin.com/profile/view?id=371994383'></a></li>
+			</ul>
+		</div>
 	</div>
 	<div id="introduction">
+		<div id="introduction-left">
 		<img src="files/images/twarz.jpeg">
 		<h1> Szymon Maślanka </h1>
-		<h2> Minimalistic, pixel-perfect design implemented with simple, creative programming. Simple designs and effective functionality are my priorities. Also I love mobile development. </h2>
+		<h2> iOS developer </h2>
+		<h2> employed at <a href="https://www.intive.com">Intive</a></h2>
+		</div>
+		<div id="introduction-right">
+		<h1> Minimalistic, pixel-perfect design implemented with simple, creative programming. </h3>
+		</div>
 	</div>
 	<!-- 	<div id="portfolio">
 		<h1> Portfolio </h1>
@@ -40,10 +49,11 @@
 
 		<ul id="portfolio-items-apps" class="portfolio-items">
 
-			<h2>WORK</h2>
-
-			<li class="portfolio-item portfolio-item-large">
-				<img src="files/images/portfolio_items/loko.png">
+			<div class="portfolio-header" id="portfolio-header-work">
+				<h2>Projects done </br>during work</h2>
+			</div>
+			<li class="portfolio-item">
+				<!-- <img src="files/images/portfolio_items/loko.png"> -->
 				<div class="links">
 					<a class="link-button link-apple-store fa fa-apple" href="https://itunes.apple.com/app/loko-live-personalized-maps/id1023750332"></a>
 					<a class="link-button link-download fa fa-link" href="http://getloko.io"></a>
@@ -52,8 +62,8 @@
 				<h4>Loko is a dynamic & personalized crowd-sourced live map where you and other users - displayed on the map by avatars - constantly feed new information. Loko allows you to share your experiences anywhere in the world with other users. <i> My role was designing, development in Swift using multiple frameworks and libraries, networking, web-socket, code maintenance and shipping complete application.</i></h4>
 			</li>
 
-			<li class="portfolio-item portfolio-item-large">
-				<img src="files/images/portfolio_items/sms_app.png">
+			<li class="portfolio-item">
+				<!-- <img src="files/images/portfolio_items/sms_app.png"> -->
 				<div class="links">
 					<a class="link-button link-play-store fa fa-play" href="https://play.google.com/store/apps/details?id=com.rizapps.sms_app"></a>
 				</div>
@@ -61,8 +71,8 @@
 				<h4>SMS Hubbing is a new structure that was introduced for international SMS traffic between operators to expand SMS services by simplifying the interworking arrangements between them, and implementing hubs to intermediate the SMS traffic for larger coverage. <i> My role was designing and development of iOS (Objective-C) and Android application with networking and user management. Shipping complete application.</i></h4>
 			</li>
 
-			<li class="portfolio-item portfolio-item-large">
-				<img src="files/images/portfolio_items/reed_app.png">
+			<li class="portfolio-item">
+				<!-- <img src="files/images/portfolio_items/reed_app.png"> -->
 				<div class="links">
 					<a class="link-button link-play-store fa fa-play" href="https://play.google.com/store/apps/details?id=com.johnsonreed.leasing"></a>
 					<a class="link-button link-apple-store fa fa-apple" href="https://itunes.apple.com/us/app/johnson-reed/id907577316?ls=1&mt=8"></a>
@@ -77,10 +87,10 @@
 
 		<ul id="portfolio-items-other" class="portfolio-items">
 
-			<h2>PERSONAL</h2>
+			<h2>Personal projects in my free time</h2>
 
-			<li class="portfolio-item portfolio-item-large">
-				<img src="files/images/portfolio_items/spotify.png">
+			<li class="portfolio-item">
+				<!-- <img src="files/images/portfolio_items/spotify.png"> -->
 				<div class="links">
 				<a class="link-button link-github fa fa-github-alt" href="https://github.com/nahive/spotify-notify"></a>
 					<a class="link-button link-download fa fa-download" href="https://github.com/nahive/spotify-notify/releases"></a>
@@ -89,8 +99,8 @@
 				<h4>Display OSX notifications for Spotify playback changes. No more opening app just to check what's playing. <i>OSX application developed using Swift and Cocoa framework.</i></h4>
 			</li>
 
-			<li class="portfolio-item portfolio-item-large">
-				<img src="files/images/portfolio_items/arkanoid.png">
+			<li class="portfolio-item">
+				<!-- <img src="files/images/portfolio_items/arkanoid.png"> -->
 				<div class="links">
 					<a class="link-button link-github fa fa-github-alt" href="https://github.com/nahive/awesome_arkanoid"></a>
 					<a class="link-button link-download fa fa-download" href="files/AwesomeArkanoid.apk"></a>
@@ -99,8 +109,8 @@
 				<h4>Simple, minimalistic arkanoid game for android written in java and xml using libgdx engine, box2d physics engine and box2dlights for dynamic lightning. <i> Usage of physics enging and dynamic lightning.</i></h4>
 			</li>
 
-			<li class="portfolio-item portfolio-item-large">
-				<img src="files/images/portfolio_items/sidescroller.png">
+			<li class="portfolio-item">
+				<!-- <img src="files/images/portfolio_items/sidescroller.png"> -->
 				<div class="links">
 					<a class="link-button link-github fa fa-github-alt" href="https://github.com/nahive/sidescroller"></a>
 					<a class="link-button link-download fa fa-download" href="files/SideScroller.jar"></a>
@@ -115,10 +125,10 @@
 
 		<ul id="portfolio-items-other" class="portfolio-items">
 
-			<h2>OTHER</h2>
+			<h2>Random creative jumps</h2>
 
 			<li class="portfolio-item portfolio-item-small">
-				<img src="files/images/portfolio_items/wroclaw2017.png">
+				<!-- <img src="files/images/portfolio_items/wroclaw2017.png"> -->
 				<div class="links">
 					<a class="link-button link-download fa fa-link" href=""></a>
 					<a class="link-button link-github fa fa-github-alt" href="https://github.com/nahive/app_wroclaw_2017"></a>
@@ -128,7 +138,7 @@
 			</li>
 
 			<li class="portfolio-item portfolio-item-small">
-				<img src="files/images/portfolio_items/school.png">
+				<!-- <img src="files/images/portfolio_items/school.png"> -->
 				<div class="links">
 					<a class="link-button link-download fa fa-link" href="http://krainaduchagor.org"></a>
 				</div>
@@ -137,7 +147,7 @@
 			</li>
 
 			<li class="portfolio-item portfolio-item-small">
-				<img src="files/images/portfolio_items/school.png">
+				<!-- <img src="files/images/portfolio_items/school.png"> -->
 				<div class="links">
 					<a class="link-button link-download fa fa-link" href=""></a>
 				</div>
@@ -151,10 +161,10 @@
 
 		<ul id="portfolio-items-school" class="portfolio-items">
 
-			<h2>SCHOOL</h2>
+			<h2>College projects</h2>
 
 			<li class="portfolio-item portfolio-item-small">
-				<img src="files/images/portfolio_items/school.png">
+				<!-- <img src="files/images/portfolio_items/school.png"> -->
 				<div class="links">
 					<a class="link-button link-github fa fa-github-alt" href="https://github.com/nahive/Wypozyczalnia"></a>
 				</div>
@@ -163,7 +173,7 @@
 			</li>
 
 			<li class="portfolio-item portfolio-item-small">
-				<img src="files/images/portfolio_items/school.png">
+				<!-- <img src="files/images/portfolio_items/school.png"> -->
 				<div class="links">
 					<a class="link-button link-github fa fa-github-alt" href="https://github.com/nahive/gamedev"></a>
 				</div>
