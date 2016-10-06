@@ -4,19 +4,19 @@
 
 @font-face {
   font-family: "SourceSans-Regular";
-  src: url('../files/fonts/source-sans/SourceSansPro-Regular.ttf');
+  src: url('fonts/source-sans/SourceSansPro-Regular.ttf');
 }
 @font-face {
   font-family: "SourceSans-Light";
-  src: url('../files/fonts/source-sans/SourceSansPro-Light.ttf');
+  src: url('fonts/source-sans/SourceSansPro-Light.ttf');
 }
 @font-face {
   font-family: "SourceSans-Italic";
-  src: url('../files/fonts/source-sans/SourceSansPro-It.ttf');
+  src: url('fonts/source-sans/SourceSansPro-It.ttf');
 }
 @font-face {
   font-family: "SourceSans-Bold";
-  src: url('../files/fonts/source-sans/SourceSansPro-Bold.ttf');
+  src: url('fonts/source-sans/SourceSansPro-Bold.ttf');
 }
 
 body {
