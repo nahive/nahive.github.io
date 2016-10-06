@@ -2,48 +2,31 @@
 /*@import url(http://fonts.googleapis.com/css?family=Lato:100,400,900,100italic,400italic,900italic);*/
 @import url('reset.css');
 
-/*@font-face {
-  font-family: "Oswald-Regular";
-  src: url('fonts/oswald/Oswald-Regular.ttf');
+@font-face {
+  font-family: "SourceSans-Regular";
+  src: url('../files/fonts/source-sans/SourceSansPro-Regular.ttf');
 }
 @font-face {
-  font-family: "Oswald-Light";
-  src: url('fonts/oswald/Oswald-Light.ttf');
+  font-family: "SourceSans-Light";
+  src: url('../files/fonts/source-sans/SourceSansPro-Light.ttf');
 }
 @font-face {
-  font-family: "Oswald-Bold";
-  src: url('fonts/oswald/Oswald-Bold.ttf');
+  font-family: "SourceSans-Italic";
+  src: url('../files/fonts/source-sans/SourceSansPro-It.ttf');
 }
 @font-face {
-  font-family: "Oswald-Italic";
-  src: url('fonts/oswald/Oswald-Italic.ttf');
+  font-family: "SourceSans-Bold";
+  src: url('../files/fonts/source-sans/SourceSansPro-Bold.ttf');
 }
-
-@font-face {
-  font-family: "OpenSans-Regular";
-  src: url('fonts/open-sans/OpenSans-Regular.ttf');
-}
-@font-face {
-  font-family: "OpenSans-Light";
-  src: url('fonts/open-sans/OpenSans-Light.ttf');
-}
-@font-face {
-  font-family: "OpenSans-Bold";
-  src: url('fonts/open-sans/OpenSans-Bold.ttf');
-}
-@font-face {
-  font-family: "OpenSans-Italic";
-  src: url('fonts/open-sans/OpenSans-LightItalic.ttf');
-}*/
 
 body {
-	 font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-family: "SourceSans-Light", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-weight: 100;
   background-color: #fafafa;
 }
 
-b {	font-weight: 900; font-style: bold; font-family: "HelveticaNeue-Medium" }
-i { font-weight: 300; font-style: italic; font-family: "HelveticaNeue-Italic" }
+b {	font-weight: 900; font-style: bold; font-family: "SourceSans-Bold"; }
+i { font-weight: 300; font-style: italic; font-family: "SourceSans-Italic"; }
 
 a {
 	text-decoration: none;
@@ -215,6 +198,7 @@ a:hover {
   font-size: 36px;
   font-weight: 900;
   color: #333;
+  font-family: "SourceSans-Bold";
 }
 
 #portfolio-header-work {
@@ -249,6 +233,7 @@ a:hover {
 .portfolio-item h3 {
   font-size: 24px;
   height: 30px;
+  font-family: "SourceSans-Regular";
 }
 
 .portfolio-item h4 {
@@ -280,6 +265,7 @@ a:hover {
 
 .portfolio-item-small h3 {
   font-size: 22px;
+  font-family: "SourceSans-Regular";
 }
 
 .portfolio-item-small h4 {
