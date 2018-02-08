@@ -3,24 +3,28 @@
 @import url('reset.css');
 
 @font-face {
-  font-family: "SourceSans-Regular";
-  src: url('fonts/source-sans/SourceSansPro-Regular.ttf');
+  font-family: "FiraCode";
+  src: url('fonts/fira-code/FiraCode-Regular.otf');
 }
 @font-face {
-  font-family: "SourceSans-Light";
-  src: url('fonts/source-sans/SourceSansPro-Light.ttf');
+  font-family: "FiraCode-Light";
+  src: url('fonts/fira-code/FiraCode-Light.otf');
 }
 @font-face {
-  font-family: "SourceSans-Italic";
-  src: url('fonts/source-sans/SourceSansPro-It.ttf');
+  font-family: "FiraCode-Bold";
+  src: url('fonts/fira-code/FiraCode-Bold.otf');
 }
 @font-face {
-  font-family: "SourceSans-Bold";
-  src: url('fonts/source-sans/SourceSansPro-Bold.ttf');
+  font-family: "FiraCode-Italic";
+  src: url('fonts/fira-code/FiraMono-RegularItalic.otf');
+}
+@font-face {
+  font-family: "FiraCode-Medium";
+  src: url('fonts/fira-code/FiraCode-Medium.otf');
 }
 
 body {
-	font-family: "SourceSans-Light", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-weight: 100;
   background-color: #fafafa;
 }
@@ -31,6 +35,8 @@ i { font-weight: 300; font-style: italic; font-family: "SourceSans-Italic"; }
 a {
 	text-decoration: none;
 	opacity: 0.6;
+  color: #333;
+  font-weight: 900;
 	-webkit-transition: opacity 0.5s ease-in-out;
   -moz-transition: opacity 0.5s ease-in-out;
   -ms-transition: opacity 0.5s ease-in-out;
@@ -40,6 +46,14 @@ a {
 
 a:hover {
 	opacity: 1;
+}
+
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    width: 60%;
 }
 
 /*menu*/
@@ -171,6 +185,8 @@ a:hover {
 
 .portfolio-items {
   color: #333;
+  padding-bottom: 15px;
+  padding-top: 15px;
 }
 
 .portfolio-items .portfolio-header {
@@ -197,8 +213,12 @@ a:hover {
   margin-top: 44px;
   font-size: 36px;
   font-weight: 900;
+<<<<<<< HEAD
   color: #333;
   font-family: "SourceSans-Bold";
+=======
+  color: #444;
+>>>>>>> development
 }
 
 #portfolio-header-work {
@@ -217,7 +237,7 @@ a:hover {
 
 /*big*/
 .portfolio-item {
-  padding: 16px 4px 0px 4px;
+  padding: 30px 4px 0px 4px;
 }
 
 .portfolio-item img {
@@ -232,15 +252,21 @@ a:hover {
 
 .portfolio-item h3 {
   font-size: 24px;
+<<<<<<< HEAD
   height: 30px;
   font-family: "SourceSans-Regular";
+=======
+  font-weight: 900;
+  color: #666;
+>>>>>>> development
 }
 
 .portfolio-item h4 {
   padding: 8px 0px;
   padding-right: 60px;
-  color: #333;
-  font-size: 18px;
+  color: #999;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .portfolio-item .links {
