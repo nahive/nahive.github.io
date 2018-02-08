@@ -2,42 +2,29 @@
 /*@import url(http://fonts.googleapis.com/css?family=Lato:100,400,900,100italic,400italic,900italic);*/
 @import url('reset.css');
 
-/*@font-face {
-  font-family: "Oswald-Regular";
-  src: url('fonts/oswald/Oswald-Regular.ttf');
+@font-face {
+  font-family: "FiraCode";
+  src: url('fonts/fira-code/FiraCode-Regular.otf');
 }
 @font-face {
-  font-family: "Oswald-Light";
-  src: url('fonts/oswald/Oswald-Light.ttf');
+  font-family: "FiraCode-Light";
+  src: url('fonts/fira-code/FiraCode-Light.otf');
 }
 @font-face {
-  font-family: "Oswald-Bold";
-  src: url('fonts/oswald/Oswald-Bold.ttf');
+  font-family: "FiraCode-Bold";
+  src: url('fonts/fira-code/FiraCode-Bold.otf');
 }
 @font-face {
-  font-family: "Oswald-Italic";
-  src: url('fonts/oswald/Oswald-Italic.ttf');
-}
-
-@font-face {
-  font-family: "OpenSans-Regular";
-  src: url('fonts/open-sans/OpenSans-Regular.ttf');
+  font-family: "FiraCode-Italic";
+  src: url('fonts/fira-code/FiraMono-RegularItalic.otf');
 }
 @font-face {
-  font-family: "OpenSans-Light";
-  src: url('fonts/open-sans/OpenSans-Light.ttf');
+  font-family: "FiraCode-Medium";
+  src: url('fonts/fira-code/FiraCode-Medium.otf');
 }
-@font-face {
-  font-family: "OpenSans-Bold";
-  src: url('fonts/open-sans/OpenSans-Bold.ttf');
-}
-@font-face {
-  font-family: "OpenSans-Italic";
-  src: url('fonts/open-sans/OpenSans-LightItalic.ttf');
-}*/
 
 body {
-	 font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-weight: 100;
   background-color: #fafafa;
 }
@@ -48,6 +35,8 @@ i { font-weight: 300; font-style: italic; font-family: "HelveticaNeue-Italic" }
 a {
 	text-decoration: none;
 	opacity: 0.6;
+  color: #333;
+  font-weight: 900;
 	-webkit-transition: opacity 0.5s ease-in-out;
   -moz-transition: opacity 0.5s ease-in-out;
   -ms-transition: opacity 0.5s ease-in-out;
@@ -57,6 +46,14 @@ a {
 
 a:hover {
 	opacity: 1;
+}
+
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    width: 60%;
 }
 
 /*menu*/
@@ -188,6 +185,8 @@ a:hover {
 
 .portfolio-items {
   color: #333;
+  padding-bottom: 15px;
+  padding-top: 15px;
 }
 
 .portfolio-items .portfolio-header {
@@ -214,7 +213,7 @@ a:hover {
   margin-top: 44px;
   font-size: 36px;
   font-weight: 900;
-  color: #333;
+  color: #444;
 }
 
 #portfolio-header-work {
@@ -233,7 +232,7 @@ a:hover {
 
 /*big*/
 .portfolio-item {
-  padding: 16px 4px 0px 4px;
+  padding: 30px 4px 0px 4px;
 }
 
 .portfolio-item img {
@@ -249,13 +248,16 @@ a:hover {
 
 .portfolio-item h3 {
   font-size: 24px;
+  font-weight: 900;
+  color: #666;
 }
 
 .portfolio-item h4 {
   padding: 8px 0px;
   padding-right: 60px;
-  color: #333;
-  font-size: 18px;
+  color: #999;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .portfolio-item .links {
