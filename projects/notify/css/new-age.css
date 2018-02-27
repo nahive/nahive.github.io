@@ -265,12 +265,26 @@ section.contact {
   padding: 15px 0px;
 }
 
+section.contact a {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 section.contact #social-twitter {
   color: white;
   font-size: 50px;
 }
 
 section.contact #social-twitter:hover {
+  color: #333333;
+}
+
+section.contact #social-portfolio {
+  color: white;
+  font-size: 50px;
+}
+
+section.contact #social-portfolio:hover {
   color: #0d95e8;
 }
 
