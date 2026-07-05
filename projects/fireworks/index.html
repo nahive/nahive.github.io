@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- Fireworks Line-of-Sight Checker — serve with: python3 -m http.server -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fireworks visibility — terrain line-of-sight</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="map"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div id="panel" class="intro">
+  <p class="eyebrow">花火 · line of sight</p>
+  <h1>Fireworks<br>visibility</h1>
+  <p class="hint" id="hint">Click the map — first the <b class="obs">observer</b>, then the <b class="fw">fireworks</b>. Drag either pin to explore.</p>
+
+  <div class="readings">
+    <div class="reading"><span class="dot obs"></span><span id="coordA">observer —</span></div>
+    <div class="reading"><span class="dot fw"></span><span id="coordB">fireworks —</span></div>
+    <div class="reading" id="distance"></div>
+  </div>
+
+  <div class="inputs">
+    <label>Eye height <span class="unit">m</span>
+      <input id="eye" type="number" value="1.7" min="0" step="0.1">
+    </label>
+    <label>Burst altitude <span class="unit">m AGL</span>
+      <input id="burst" type="number" value="150" min="0" step="10">
+    </label>
+  </div>
+
+  <div id="verdict" class="verdict hidden" role="status"></div>
+  <button id="setmin" class="hidden">Set burst to minimum</button>
+
+  <div class="footer-row">
+    <label class="chk"><input type="checkbox" id="terrain3d"> 3D terrain</label>
+    <button id="themeToggle" aria-label="Switch to light mode">☀</button>
+    <button id="reset">Reset points</button>
+  </div>
+</div>
+
+<div id="profileWrap" class="hidden">
+  <canvas id="profile"></canvas>
+  <div id="profileTip" class="hidden"></div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
