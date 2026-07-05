@@ -201,7 +201,9 @@ export function analyzeProfile(elevs, d, eye, burst, kRefraction = K_REFRACTION)
 
 // Full pipeline: sample the path, fetch tiles via tileGetter, analyze.
 // tileGetter(z,x,y) -> Promise<Float32Array> is injectable for testing.
-export async function computeLOS(a, b, eye, burst, tileGetter = getTileBrowser) {
+// opts: { includeBuildings, buildingGetter } — buildingGetter(bbox) is
+// injectable for testing (defaults to overpassGetter in the browser).
+export async function computeLOS(a, b, eye, burst, tileGetter = getTileBrowser, opts = {}) {
   if (Math.abs(a.lat) > 85 || Math.abs(b.lat) > 85) return { status: "polar" };
   if (Math.abs(a.lon - b.lon) > 180) return { status: "antimeridian" };
   const d = haversine(a, b);
@@ -229,7 +231,170 @@ export async function computeLOS(a, b, eye, burst, tileGetter = getTileBrowser) 
     return Number.isFinite(e) ? Math.max(0, e) : NaN;
   });
 
-  return { ...analyzeProfile(elevs, d, eye, burst), pts, zoom: z };
+  // Buildings raise the terrain (opt-in). Failures fall back to terrain-only —
+  // never let a missing building set turn a verdict INDETERMINATE.
+  let buildingsUsed = false;
+  if (opts.includeBuildings && d <= BUILDINGS_MAX_D) {
+    const buildings = await fetchBuildings(pts, opts.buildingGetter);
+    if (buildings) {
+      const heights = buildingHeightsForPath(pts, buildings);
+      for (let i = 0; i < elevs.length; i++) {
+        if (Number.isFinite(elevs[i])) elevs[i] += heights[i];
+      }
+      buildingsUsed = true;
+    }
+  }
+
+  return { ...analyzeProfile(elevs, d, eye, burst), pts, zoom: z, buildingsUsed };
+}
+
+// ===== 4.5 Buildings: OSM heights raise terrain (pure fns + Overpass fetch) =====
+
+const BUILDINGS_MAX_D = 40000;   // m; beyond this the bbox is too big to be worth it
+const DEFAULT_LEVEL_M = 3;       // assumed storey height when only levels are tagged
+const DEFAULT_BUILDING_M = 3;    // assumed height for a footprint with no height data
+
+// Height in meters for one OSM building's tags. `height` wins (e.g. "12 m"),
+// then `building:levels` × 3 m, else a small default so any footprint occludes.
+export function parseBuildingHeight(tags = {}) {
+  const h = parseFloat(tags.height);
+  if (Number.isFinite(h) && h > 0) return h;
+  const lvls = parseFloat(tags["building:levels"]);
+  if (Number.isFinite(lvls) && lvls > 0) return lvls * DEFAULT_LEVEL_M;
+  return DEFAULT_BUILDING_M;
+}
+
+// Ray-casting point-in-polygon. `ring` is an array of {lat, lon} (lat=y, lon=x).
+export function pointInPolygon(lat, lon, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const yi = ring[i].lat, xi = ring[i].lon;
+    const yj = ring[j].lat, xj = ring[j].lon;
+    const intersect = (yi > lat) !== (yj > lat) &&
+      lon < ((xj - xi) * (lat - yi)) / (yj - yi) + xi;
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+// For each sample, the max height of any building polygon containing it (0 if
+// none). buildings: [{ ring:[{lat,lon}], height, bbox:{s,w,n,e} }].
+export function buildingHeightsForPath(pts, buildings) {
+  const out = new Float32Array(pts.length);
+  if (!buildings || !buildings.length) return out;
+  for (let i = 0; i < pts.length; i++) {
+    const { lat, lon } = pts[i];
+    let max = 0;
+    for (const b of buildings) {
+      const bb = b.bbox;
+      if (lat < bb.s || lat > bb.n || lon < bb.w || lon > bb.e) continue; // cheap reject
+      if (b.height > max && pointInPolygon(lat, lon, b.ring)) max = b.height;
+    }
+    out[i] = max;
+  }
+  return out;
+}
+
+const OVERPASS_ENDPOINTS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+];
+
+// Parse an Overpass "out geom" JSON response into building polygons.
+function parseOverpassBuildings(json) {
+  const out = [];
+  for (const el of json.elements || []) {
+    if (el.type !== "way" || !el.geometry || el.geometry.length < 3) continue;
+    const ring = el.geometry.map((g) => ({ lat: g.lat, lon: g.lon }));
+    let s = Infinity, w = Infinity, n = -Infinity, e = -Infinity;
+    for (const p of ring) {
+      if (p.lat < s) s = p.lat; if (p.lat > n) n = p.lat;
+      if (p.lon < w) w = p.lon; if (p.lon > e) e = p.lon;
+    }
+    out.push({ ring, height: parseBuildingHeight(el.tags || {}), bbox: { s, w, n, e } });
+  }
+  return out;
+}
+
+// Fetch all buildings in a bbox from Overpass. Throws if every mirror fails
+// (so fetchBuildings can evict the cache entry and retry next recompute).
+async function overpassGetter(bbox) {
+  const q = `[out:json][timeout:20];way["building"](${bbox.s},${bbox.w},${bbox.n},${bbox.e});out geom;`;
+  let lastErr;
+  for (const url of OVERPASS_ENDPOINTS) {
+    try {
+      const res = await fetch(url, { method: "POST", body: "data=" + encodeURIComponent(q) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return parseOverpassBuildings(await res.json());
+    } catch (err) { lastErr = err; }
+  }
+  throw lastErr ?? new Error("overpass unavailable");
+}
+
+// Snap a bbox outward to a coarse grid so nearby paths (drags) share one fetch.
+function snapBBox({ s, w, n, e }, grid = 0.02) {
+  return {
+    s: Math.floor(s / grid) * grid, w: Math.floor(w / grid) * grid,
+    n: Math.ceil(n / grid) * grid, e: Math.ceil(e / grid) * grid,
+  };
+}
+
+const BUILDING_CACHE_MAX = 32;
+const buildingCache = new Map(); // snapped-bbox key -> Promise<buildings[]|null>
+
+// Buildings covering the path's bbox; null on failure. getter(bbox) is
+// injectable (defaults to Overpass). Cached per snapped bbox, LRU, retry-on-fail.
+async function fetchBuildings(pts, getter = overpassGetter) {
+  let s = Infinity, w = Infinity, n = -Infinity, e = -Infinity;
+  for (const p of pts) {
+    if (p.lat < s) s = p.lat; if (p.lat > n) n = p.lat;
+    if (p.lon < w) w = p.lon; if (p.lon > e) e = p.lon;
+  }
+  const bbox = snapBBox({ s, w, n, e });
+  // Only the default (network) getter is cached — injected getters (tests) run
+  // uncached so they stay isolated from one another.
+  if (getter !== overpassGetter) {
+    return Promise.resolve(getter(bbox)).catch(() => null);
+  }
+  const key = `${bbox.s.toFixed(3)},${bbox.w.toFixed(3)},${bbox.n.toFixed(3)},${bbox.e.toFixed(3)}`;
+  if (buildingCache.has(key)) {
+    const p = buildingCache.get(key);
+    buildingCache.delete(key); buildingCache.set(key, p); // LRU refresh
+    return p;
+  }
+  const p = Promise.resolve(getter(bbox)).catch(() => { buildingCache.delete(key); return null; });
+  buildingCache.set(key, p);
+  if (buildingCache.size > BUILDING_CACHE_MAX) buildingCache.delete(buildingCache.keys().next().value);
+  return p;
+}
+
+// ===== 4.6 Geocoding (Photon, keyless) =====
+
+const PHOTON_URL = "https://photon.komoot.io/api/";
+
+// Search place names → [{ name, label, lat, lon, kind }]. fetchImpl is
+// injectable for testing the response parsing without a network call.
+export async function geocode(q, fetchImpl = fetch) {
+  const query = (q || "").trim();
+  if (!query) return [];
+  const res = await fetchImpl(`${PHOTON_URL}?q=${encodeURIComponent(query)}&limit=5`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = await res.json();
+  return (json.features || [])
+    .map((f) => {
+      const c = f.geometry && f.geometry.coordinates;
+      if (!c) return null;
+      const [lon, lat] = c;
+      const p = f.properties || {};
+      const parts = [p.name, p.city, p.state, p.country].filter(Boolean);
+      return {
+        name: p.name || parts[0] || `${lat.toFixed(4)}, ${lon.toFixed(4)}`,
+        label: parts.join(", ") || `${lat.toFixed(4)}, ${lon.toFixed(4)}`,
+        lat, lon,
+        kind: p.osm_value || p.osm_key || null,
+      };
+    })
+    .filter((r) => r && Number.isFinite(r.lat) && Number.isFinite(r.lon));
 }
 
 // ===== Browser app (map, UI, chart) =====
@@ -326,7 +491,12 @@ function initApp() {
   setTimeout(() => document.getElementById("panel").classList.remove("intro"), 1100);
 
   const $ = (id) => document.getElementById(id);
-  const state = { a: null, b: null, markerA: null, markerB: null };
+  const state = {
+    a: null, b: null, markerA: null, markerB: null,
+    mode: "fireworks", // "fireworks" | "landmark"
+    searchPt: "a",     // which point a search result places
+    targetName: null,  // name of the searched target (for landmark verdict copy)
+  };
   let computeToken = 0;
   let lastResult = null;
 
@@ -353,21 +523,29 @@ function initApp() {
     blockMarker = new maplibregl.Marker({ element: el }).setLngLat(lngLat).addTo(map);
   }
 
-  function pinElement(which) {
-    const color = which === "a" ? C.aoi : C.spark;
-    const glyph = which === "a"
-      ? `<circle cx="15" cy="14" r="5" fill="${C.ink}"/><circle cx="15" cy="14" r="2" fill="${color}"/>`
+  // Target glyph depends on mode: a firework spark, or a peak triangle for landmarks.
+  function targetGlyph(mode) {
+    return mode === "landmark"
+      ? `<path d="M15 8l6.4 11.2H8.6z" fill="${C.ink}"/>`
       : `<g stroke="${C.ink}" stroke-width="2.4" stroke-linecap="round">
            <path d="M15 7.5v13M8.5 14h13M10.4 9.4l9.2 9.2M19.6 9.4l-9.2 9.2"/>
          </g>`;
-    const el = document.createElement("div");
-    el.className = "pin drop";
-    el.innerHTML =
-      `<svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg">
+  }
+  function pinInnerSVG(which, mode) {
+    const color = which === "a" ? C.aoi : C.spark;
+    const glyph = which === "a"
+      ? `<circle cx="15" cy="14" r="5" fill="${C.ink}"/><circle cx="15" cy="14" r="2" fill="${color}"/>`
+      : targetGlyph(mode);
+    return `<svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg">
          <path d="M15 39C15 39 28 22.5 28 14A13 13 0 1 0 2 14C2 22.5 15 39 15 39Z"
                fill="${color}" stroke="${C.ink}" stroke-width="2"/>
          ${glyph}
        </svg>`;
+  }
+  function pinElement(which) {
+    const el = document.createElement("div");
+    el.className = "pin drop";
+    el.innerHTML = pinInnerSVG(which, state.mode);
     el.addEventListener("animationend", () => el.classList.remove("drop"), { once: true });
     return el;
   }
@@ -394,12 +572,18 @@ function initApp() {
     updateCoordLabels();
   }
 
+  // Mode-dependent copy. In landmark mode the "fireworks" point becomes a generic "target".
+  const targetWord = () => state.mode === "landmark" ? "target" : "fireworks";
+  const startHint = () =>
+    `Click the map — first the <b class="obs">observer</b>, then the <b class="fw">${targetWord()}</b>. Drag either pin to explore.`;
+
   map.on("click", (e) => {
     if (!state.markerA) {
       state.markerA = makeMarker("a", e.lngLat);
-      $("hint").innerHTML = 'Now click the <b class="fw">fireworks</b> location.';
+      $("hint").innerHTML = `Now click the <b class="fw">${targetWord()}</b> location.`;
     } else if (!state.markerB) {
       state.markerB = makeMarker("b", e.lngLat);
+      state.targetName = null; // manual placement clears any searched name
       $("hint").innerHTML = "Drag either pin to explore. The verdict updates live.";
       map.getCanvas().style.cursor = "";
     } else {
@@ -415,7 +599,9 @@ function initApp() {
 
   function updateCoordLabels() {
     $("coordA").textContent = state.a ? `${fmt(state.a.lat)}, ${fmt(state.a.lon)}` : "observer —";
-    $("coordB").textContent = state.b ? `${fmt(state.b.lat)}, ${fmt(state.b.lon)}` : "fireworks —";
+    $("coordB").textContent = state.b
+      ? (state.targetName ?? `${fmt(state.b.lat)}, ${fmt(state.b.lon)}`)
+      : `${targetWord()} —`;
   }
 
   function getInputs() {
@@ -426,6 +612,113 @@ function initApp() {
 
   $("eye").addEventListener("change", recompute);
   $("burst").addEventListener("change", recompute);
+  $("buildings").addEventListener("change", recompute);
+
+  // ---- Mode toggle (Fireworks / Landmark) ----
+
+  function setMode(name) {
+    state.mode = name === "landmark" ? "landmark" : "fireworks";
+    const landmark = state.mode === "landmark";
+    $("modeFireworks").classList.toggle("active", !landmark);
+    $("modeLandmark").classList.toggle("active", landmark);
+    $("modeFireworks").setAttribute("aria-selected", String(!landmark));
+    $("modeLandmark").setAttribute("aria-selected", String(landmark));
+    $("title").innerHTML = landmark ? "Landmark<br>visibility" : "Fireworks<br>visibility";
+    $("burstLabel").textContent = landmark ? "Target height" : "Burst altitude";
+    $("burstUnit").textContent = landmark ? "m" : "m AGL";
+    $("setmin").textContent = landmark ? "Set target to minimum height" : "Set burst to minimum";
+    // gentle default swap between the two canonical values (0 = "see the object itself")
+    if (landmark && $("burst").value === "150") $("burst").value = "0";
+    if (!landmark && $("burst").value === "0") $("burst").value = "150";
+    if (state.markerB) state.markerB.getElement().innerHTML = pinInnerSVG("b", state.mode);
+    if (!state.markerA) $("hint").innerHTML = startHint();
+    updateCoordLabels();
+    writeHash();
+    if (state.a && state.b) recompute();
+    else if (lastResult) render(lastResult, lastResult.status);
+  }
+  $("modeFireworks").addEventListener("click", () => setMode("fireworks"));
+  $("modeLandmark").addEventListener("click", () => setMode("landmark"));
+
+  // ---- Place search (Photon geocoder) ----
+
+  const searchInput = $("search");
+  const resultsEl = $("results");
+  const escapeHTML = (s) => String(s).replace(/[&<>"]/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  let searchTimer = 0, searchSeq = 0;
+
+  function setSearchPt(pt) {
+    state.searchPt = pt === "b" ? "b" : "a";
+    $("segObs").classList.toggle("active", state.searchPt === "a");
+    $("segTgt").classList.toggle("active", state.searchPt === "b");
+  }
+  $("segObs").addEventListener("click", () => setSearchPt("a"));
+  $("segTgt").addEventListener("click", () => setSearchPt("b"));
+
+  function hideResults() { resultsEl.classList.add("hidden"); resultsEl.innerHTML = ""; }
+
+  function renderResults(items) {
+    resultsEl.innerHTML = "";
+    if (!items.length) { hideResults(); return; }
+    for (const it of items) {
+      const li = document.createElement("li");
+      li.setAttribute("role", "option");
+      li.innerHTML = `<span class="r-name">${escapeHTML(it.name)}</span>` +
+        (it.label && it.label !== it.name ? `<span class="r-sub">${escapeHTML(it.label)}</span>` : "");
+      li.addEventListener("click", () => placeSearchResult(it));
+      resultsEl.appendChild(li);
+    }
+    resultsEl.classList.remove("hidden");
+  }
+
+  function placeSearchResult(it) {
+    const pt = state.searchPt;
+    const lngLat = [it.lon, it.lat];
+    if (pt === "a") {
+      if (state.markerA) state.markerA.setLngLat(lngLat);
+      else state.markerA = makeMarker("a", lngLat);
+    } else {
+      if (state.markerB) state.markerB.setLngLat(lngLat);
+      else state.markerB = makeMarker("b", lngLat);
+      state.targetName = it.name;
+    }
+    syncFromMarkers();
+    if (state.a && state.b) {
+      map.fitBounds([[Math.min(state.a.lon, state.b.lon), Math.min(state.a.lat, state.b.lat)],
+                     [Math.max(state.a.lon, state.b.lon), Math.max(state.a.lat, state.b.lat)]],
+        { padding: 90, duration: 600 });
+      map.getCanvas().style.cursor = "";
+    } else {
+      map.flyTo({ center: lngLat, zoom: Math.max(map.getZoom(), 10), duration: 600 });
+    }
+    if (pt === "a" && !state.markerB) setSearchPt("b"); // next search fills the target
+    if (state.markerA && !state.markerB) $("hint").innerHTML = `Now click or search the <b class="fw">${targetWord()}</b>.`;
+    else if (state.markerA && state.markerB) $("hint").innerHTML = "Drag either pin to explore. The verdict updates live.";
+    hideResults();
+    searchInput.value = "";
+    updateCoordLabels();
+    recompute();
+  }
+
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.trim();
+    clearTimeout(searchTimer);
+    if (q.length < 2) { hideResults(); return; }
+    searchTimer = setTimeout(async () => {
+      const seq = ++searchSeq;
+      try {
+        const items = await geocode(q);
+        if (seq === searchSeq) renderResults(items);
+      } catch { if (seq === searchSeq) hideResults(); }
+    }, 250);
+  });
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { hideResults(); searchInput.blur(); }
+  });
+  document.addEventListener("click", (e) => {
+    if (!searchInput.closest(".search").contains(e.target)) hideResults();
+  });
 
   $("setmin").addEventListener("click", () => {
     if (lastResult?.status === "blocked") {
@@ -437,6 +730,8 @@ function initApp() {
   $("reset").addEventListener("click", () => {
     state.markerA?.remove(); state.markerB?.remove();
     state.markerA = state.markerB = state.a = state.b = null;
+    state.targetName = null;
+    setSearchPt("a");
     lastResult = null;
     map.getSource("sightline")?.setData(emptyGeoJSON());
     setBlockPoint(null);
@@ -444,7 +739,7 @@ function initApp() {
     $("setmin").classList.add("hidden");
     $("distance").textContent = "";
     $("profileWrap").classList.add("hidden");
-    $("hint").innerHTML = 'Click the map — first the <b class="obs">observer</b>, then the <b class="fw">fireworks</b>. Drag either pin to explore.';
+    $("hint").innerHTML = startHint();
     map.getCanvas().style.cursor = "crosshair";
     updateCoordLabels();
     writeHash();
@@ -503,6 +798,9 @@ function initApp() {
     const { eye, burst } = getInputs();
     p.set("eye", eye); p.set("burst", burst);
     if ($("terrain3d").checked) p.set("terrain", "1");
+    if ($("buildings").checked) p.set("bld", "1");
+    if (state.mode === "landmark") p.set("mode", "landmark");
+    if (state.targetName) p.set("name", state.targetName);
     history.replaceState(null, "", "#" + p.toString());
   }
 
@@ -515,6 +813,8 @@ function initApp() {
     const a = parsePt(p.get("a")), b = parsePt(p.get("b"));
     if (p.get("eye")) $("eye").value = p.get("eye");
     if (p.get("burst")) $("burst").value = p.get("burst");
+    if (p.get("bld") === "1") $("buildings").checked = true;
+    if (p.get("mode") === "landmark") setMode("landmark"); // before markers, so the target pin glyph is right
     if (p.get("terrain") === "1") {
       $("terrain3d").checked = true;
       map.setTerrain({ source: "dem", exaggeration: 1.0 });
@@ -522,6 +822,7 @@ function initApp() {
     }
     if (a && b) {
       state.a = a; state.b = b;
+      if (p.get("name")) state.targetName = p.get("name");
       state.markerA = makeMarker("a", [a.lon, a.lat]);
       state.markerB = makeMarker("b", [b.lon, b.lat]);
       $("hint").innerHTML = "Drag either pin to explore. The verdict updates live.";
@@ -559,7 +860,8 @@ function initApp() {
 
     let res;
     try {
-      res = await computeLOS(state.a, state.b, eye, burst);
+      res = await computeLOS(state.a, state.b, eye, burst, undefined,
+        { includeBuildings: $("buildings").checked });
     } catch (err) {
       res = { status: "indeterminate", error: String(err) };
     }
@@ -571,6 +873,10 @@ function initApp() {
 
   function render(res, prevStatus) {
     const longNote = res.d > 300000 ? "<small>⚠ results approximate at this range</small>" : "";
+    const bNote = $("buildings").checked
+      ? (res.buildingsUsed ? '<small class="bnote">🏢 buildings included</small>'
+                           : '<small class="bnote">buildings not applied — terrain only</small>')
+      : "";
     $("distance").textContent = res.d ? `distance ${kmFmt(res.d)}` : "";
 
     // simple statuses without a profile
@@ -583,15 +889,26 @@ function initApp() {
       return;
     }
 
+    const landmark = state.mode === "landmark";
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+    const tName = state.targetName || (landmark ? "the target" : "the fireworks");
+
     if (res.status === "visible") {
-      setVerdict("visible", `VISIBLE<small>Sight line clears terrain by ${Math.round(res.clearance)} m at the tightest point.${longNote}</small>`);
+      const body = landmark
+        ? `${cap(tName)} is in view — the sight line clears terrain by ${Math.round(res.clearance)} m at the tightest point.`
+        : `Sight line clears terrain by ${Math.round(res.clearance)} m at the tightest point.`;
+      setVerdict("visible", `VISIBLE<small>${body}${longNote}</small>${bNote}`);
       if (prevStatus !== "visible" && state.b) fireworkBurst([state.b.lon, state.b.lat]);
     } else if (res.status === "blocked") {
       const bp = res.pts[res.blockIdx];
-      setVerdict("blocked",
-        `BLOCKED<small>Terrain at ${kmFmt(res.xs[res.blockIdx])} from the observer ` +
-        `(${bp.lat.toFixed(4)}, ${bp.lon.toFixed(4)}) blocks the view.<br>` +
-        `Minimum burst altitude to be visible: <b>${Math.ceil(res.minBurstAGL)} m AGL</b>.${longNote}</small>`);
+      const where = `terrain at ${kmFmt(res.xs[res.blockIdx])} from the observer (${bp.lat.toFixed(4)}, ${bp.lon.toFixed(4)})`;
+      const body = landmark
+        ? `${cap(tName)} is hidden — ${where} blocks the view.<br>` +
+          `The target would need to rise <b>${Math.ceil(res.minBurstAGL)} m</b> above the ground to clear it.`
+        : `Terrain at ${kmFmt(res.xs[res.blockIdx])} from the observer ` +
+          `(${bp.lat.toFixed(4)}, ${bp.lon.toFixed(4)}) blocks the view.<br>` +
+          `Minimum burst altitude to be visible: <b>${Math.ceil(res.minBurstAGL)} m AGL</b>.`;
+      setVerdict("blocked", `BLOCKED<small>${body}${longNote}</small>${bNote}`);
       $("setmin").classList.remove("hidden");
     } else {
       setVerdict("indeterminate",

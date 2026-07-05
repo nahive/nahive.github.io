@@ -18,8 +18,24 @@
 
 <div id="panel" class="intro">
   <p class="eyebrow">花火 · line of sight</p>
-  <h1>Fireworks<br>visibility</h1>
+  <h1 id="title">Fireworks<br>visibility</h1>
+
+  <div class="modes" role="tablist" aria-label="Visibility mode">
+    <button type="button" class="mode-btn active" id="modeFireworks" role="tab" aria-selected="true">🎆 Fireworks</button>
+    <button type="button" class="mode-btn" id="modeLandmark" role="tab" aria-selected="false">⛰ Landmark</button>
+  </div>
+
   <p class="hint" id="hint">Click the map — first the <b class="obs">observer</b>, then the <b class="fw">fireworks</b>. Drag either pin to explore.</p>
+
+  <div class="search">
+    <input id="search" type="search" placeholder="Search a place…" autocomplete="off" aria-label="Search for a place">
+    <div class="seg-row" role="group" aria-label="Place search result as">
+      <span class="seg-label">place as</span>
+      <button type="button" class="seg active" id="segObs" data-pt="a">observer</button>
+      <button type="button" class="seg" id="segTgt" data-pt="b">target</button>
+    </div>
+    <ul id="results" class="hidden" role="listbox"></ul>
+  </div>
 
   <div class="readings">
     <div class="reading"><span class="dot obs"></span><span id="coordA">observer —</span></div>
@@ -31,7 +47,7 @@
     <label>Eye height <span class="unit">m</span>
       <input id="eye" type="number" value="1.7" min="0" step="0.1">
     </label>
-    <label>Burst altitude <span class="unit">m AGL</span>
+    <label><span id="burstLabel">Burst altitude</span> <span class="unit" id="burstUnit">m AGL</span>
       <input id="burst" type="number" value="150" min="0" step="10">
     </label>
   </div>
@@ -41,6 +57,7 @@
 
   <div class="footer-row">
     <label class="chk"><input type="checkbox" id="terrain3d"> 3D terrain</label>
+    <label class="chk"><input type="checkbox" id="buildings"> 🏢 Buildings</label>
     <button id="themeToggle" aria-label="Switch to light mode">☀</button>
     <button id="reset">Reset points</button>
   </div>
