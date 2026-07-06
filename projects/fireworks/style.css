@@ -57,6 +57,12 @@ html, body { margin: 0; height: 100%; font-family: var(--body); background: var(
   border-radius: 16px;
   box-shadow: 0 24px 60px rgba(2, 4, 16, 0.55);
   font-size: 13px; color: var(--paper);
+  /* never taller than the viewport — scroll internally instead of growing
+     down into the profile strip or off-screen */
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 /* page-load stagger only — .intro is removed by JS after it plays, so these
    ID-strength rules never fight the verdict's own pop/breathe animations */
@@ -226,7 +232,9 @@ button:active { transform: scale(0.98); }
 /* ---------- profile strip ---------- */
 
 #profileWrap {
-  position: absolute; left: 16px; right: 16px; bottom: 16px; height: 196px; z-index: 10;
+  /* left edge clears the 308px panel (+ gap) so the two never overlap on
+     desktop, regardless of panel height; goes full-width on mobile below */
+  position: absolute; left: 340px; right: 16px; bottom: 16px; height: 196px; z-index: 10;
   background: color-mix(in srgb, var(--night) 88%, transparent);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--hairline); border-radius: 16px;
@@ -277,8 +285,18 @@ button:active { transform: scale(0.98); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-@media (max-width: 560px) {
-  #panel { width: calc(100% - 32px); }
-  #panel h1 { font-size: 22px; }
+/* Narrow screens: stack a scrollable panel (top) and a shorter profile
+   (bottom) so the map stays visible in the band between them and the two
+   cards never overlap. */
+@media (max-width: 640px) {
+  #panel {
+    top: 8px; left: 8px; right: 8px; width: auto;
+    padding: 14px 14px 12px;
+    max-height: 46vh; max-height: 46dvh;
+  }
+  #panel h1 { font-size: 22px; margin-bottom: 8px; }
   #panel h1 br { display: none; }
+  .eyebrow { margin-bottom: 4px; }
+  #profileWrap { left: 8px; right: 8px; bottom: 8px; height: 148px; }
+  #results { max-height: 34vh; }
 }
